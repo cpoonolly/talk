@@ -136,7 +136,8 @@ export async function findOrCreateOIDCUser(
   mongo: Db,
   tenant: Tenant,
   integration: GQLOIDCAuthIntegration,
-  token: OIDCIDToken
+  token: OIDCIDToken,
+  now = new Date()
 ) {
   // Unpack/validate the token content.
   const {
@@ -177,14 +178,19 @@ export async function findOrCreateOIDCUser(
     const username = preferred_username || nickname || name;
 
     // Create the new user, as one didn't exist before!
-    user = await upsert(mongo, tenant, {
-      username,
-      role: GQLUSER_ROLE.COMMENTER,
-      email,
-      emailVerified: email_verified,
-      avatar: picture,
-      profiles: [profile],
-    });
+    user = await upsert(
+      mongo,
+      tenant,
+      {
+        username,
+        role: GQLUSER_ROLE.COMMENTER,
+        email,
+        emailVerified: email_verified,
+        avatar: picture,
+        profiles: [profile],
+      },
+      now
+    );
   }
 
   // TODO: (wyattjoh) possibly update the user profile if the remaining details mismatch?
@@ -265,8 +271,9 @@ export default class OIDCStrategy extends Strategy {
       return done(new Error("no id_token in params"));
     }
 
-    // Grab the tenant out of the request, as we need some more details.
-    const { tenant } = req.talk!;
+    // Grab the tenant out of the request, as we need some more details. Talk
+    // is guaranteed at this point.
+    const { now, tenant } = req.talk!;
     if (!tenant) {
       // TODO: return a better error.
       return done(new Error("tenant not found"));
@@ -303,7 +310,8 @@ export default class OIDCStrategy extends Strategy {
             this.mongo,
             tenant,
             integration,
-            decoded as OIDCIDToken
+            decoded as OIDCIDToken,
+            now
           );
           return done(null, user);
         } catch (err) {

@@ -56,7 +56,7 @@ export default (ctx: TenantContext) => ({
     (inputs: FindOrCreateStoryInput[]) =>
       Promise.all(
         inputs.map(input =>
-          findOrCreate(ctx.mongo, ctx.tenant, input, ctx.scraperQueue)
+          findOrCreate(ctx.mongo, ctx.tenant, input, ctx.scraperQueue, ctx.now)
         )
       ),
     {

@@ -185,7 +185,8 @@ export function filterDuplicateActions<T extends {}>(actions: T[]): T[] {
 export async function createAction(
   mongo: Db,
   tenantID: string,
-  input: CreateActionInput
+  input: CreateActionInput,
+  now = new Date()
 ): Promise<CreateActionResultObject> {
   const { metadata, additionalDetails, ...filter } = input;
 
@@ -197,7 +198,7 @@ export async function createAction(
   const defaults: Sub<CommentAction, CreateActionInput> = {
     id,
     tenantID,
-    createdAt: new Date(),
+    createdAt: now,
   };
 
   // Merge the defaults with the input.
@@ -243,10 +244,13 @@ export async function createAction(
 export async function createActions(
   mongo: Db,
   tenantID: string,
-  inputs: CreateActionInput[]
+  inputs: CreateActionInput[],
+  now = new Date()
 ): Promise<CreateActionResultObject[]> {
   // TODO: (wyattjoh) replace with a batch write.
-  return Promise.all(inputs.map(input => createAction(mongo, tenantID, input)));
+  return Promise.all(
+    inputs.map(input => createAction(mongo, tenantID, input, now))
+  );
 }
 
 export async function retrieveUserAction(
