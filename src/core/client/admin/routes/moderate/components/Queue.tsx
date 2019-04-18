@@ -9,11 +9,12 @@ import ModerateCardContainer from "../containers/ModerateCardContainer";
 
 import styles from "./Queue.css";
 
+export type QueueComments = Array<{ id: string } & PropTypesOf<typeof ModerateCardContainer>["comment"]>;
+export type QueueSettings = PropTypesOf<typeof ModerateCardContainer>["settings"];
+
 interface Props {
-  comments: Array<
-    { id: string } & PropTypesOf<typeof ModerateCardContainer>["comment"]
-  >;
-  settings: PropTypesOf<typeof ModerateCardContainer>["settings"];
+  comments: QueueComments;
+  settings: QueueSettings;
   onLoadMore: () => void;
   hasMore: boolean;
   disableLoadMore: boolean;
