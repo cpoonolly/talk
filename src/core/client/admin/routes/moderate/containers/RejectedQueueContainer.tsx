@@ -20,7 +20,7 @@ const danglingLogic = (status: string) => ["ACCEPTED"].indexOf(status) >= 0;
 
 export class RejectedQueueContainer extends React.Component<
   RejectedQueueContainerProps
-> {
+  > {
   public static routeConfig: RouteProps;
 
   public state = {
@@ -38,6 +38,7 @@ export class RejectedQueueContainer extends React.Component<
           hasMore={this.props.relay.hasMore()}
           disableLoadMore={this.state.disableLoadMore}
           danglingLogic={danglingLogic}
+          emptyMessage={"There are no rejected comments."}
         />{" "}
       </IntersectionProvider>
     );

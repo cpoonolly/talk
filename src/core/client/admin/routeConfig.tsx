@@ -37,10 +37,7 @@ export default makeRouteConfig(
           <Redirect from="/" to="/admin/moderate/reported" />
           <Route path="reported" {...ReportedQueueContainer.routeConfig} />
           <Route path="pending" {...PendingQueueContainer.routeConfig} />
-          <Route
-            path="unmoderated"
-            {...UnmoderatedQueueContainer.routeConfig}
-          />
+          <Route path="unmoderated" {...UnmoderatedQueueContainer.routeConfig} />
           <Route path="rejected" {...RejectedQueueContainer.routeConfig} />
         </Route>
         <Route path="stories" {...StoriesContainer.routeConfig} />
