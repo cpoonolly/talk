@@ -14,11 +14,9 @@ import ConfigureOrganizationRouteContainer from "./routes/configure/sections/org
 import ConfigureWordListRouteContainer from "./routes/configure/sections/wordList/containers/WordListRouteContainer";
 import LoginContainer from "./routes/login/containers/LoginContainer";
 import ModerateContainer from "./routes/moderate/containers/ModerateContainer";
-import {
-  PendingQueueContainer,
-  ReportedQueueContainer,
-  UnmoderatedQueueContainer,
-} from "./routes/moderate/containers/QueueContainer";
+import PendingQueueContainer from "./routes/moderate/containers/PendingQueueContainer";
+import ReportedQueueContainer from "./routes/moderate/containers/ReportedQueueContainer";
+import UnmoderatedQueueContainer from "./routes/moderate/containers/UnmoderatedQueueContainer";
 import RejectedQueueContainer from "./routes/moderate/containers/RejectedQueueContainer";
 import SingleModerateContainer from "./routes/moderate/containers/SingleModerateContainer";
 import Stories from "./routes/stories/components/Stories";
@@ -37,10 +35,7 @@ export default makeRouteConfig(
           <Redirect from="/" to="/admin/moderate/reported" />
           <Route path="reported" {...ReportedQueueContainer.routeConfig} />
           <Route path="pending" {...PendingQueueContainer.routeConfig} />
-          <Route
-            path="unmoderated"
-            {...UnmoderatedQueueContainer.routeConfig}
-          />
+          <Route path="unmoderated" {...UnmoderatedQueueContainer.routeConfig} />
           <Route path="rejected" {...RejectedQueueContainer.routeConfig} />
         </Route>
         <Route path="stories" {...StoriesContainer.routeConfig} />
